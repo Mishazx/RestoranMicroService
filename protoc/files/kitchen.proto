@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package kitchen;
+
+service KitchenService {
+  rpc ProcessOrder (ProcessOrderRequest) returns (ProcessOrderResponse) {}
+  rpc UpdateOrderStatus (UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse) {}
+}
+
+message MenuItem {
+  int32 id = 1;
+  string name = 2;
+  int32 quantity = 3;
+}
+
+message ProcessOrderRequest {
+  string order_id = 1;
+  string table_number = 2;
+  repeated MenuItem items = 3;
+}
+
+message ProcessOrderResponse {
+  string order_id = 1;
+  string status = 2;
+  int32 estimated_time = 3;
+}
+
+message UpdateOrderStatusRequest {
+  string order_id = 1;
+  string status = 2;
+}
+
+message UpdateOrderStatusResponse {
+  bool success = 1;
+  string message = 2;
+} 

@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package order;
+
+// Сервис обработки заказов
+service OrderService {
+    rpc CreateOrder (CreateOrderRequest) returns (CreateOrderResponse) {}
+    rpc GetOrder (GetOrderRequest) returns (Order) {}
+    rpc UpdateOrderStatus (UpdateOrderStatusRequest) returns (Order) {}
+    rpc ConfirmOrderPickup (ConfirmOrderPickupRequest) returns (Order) {}
+}
+
+message MenuItem {
+    int32 id = 1;
+    string name = 2;
+    int32 quantity = 3;
+}
+
+// Статусы заказа
+enum OrderStatus {
+    PENDING = 0;
+    COOKING = 1;
+    READY = 2;
+    DELIVERED = 3;
+    PICKED_UP = 4;
+    CANCELLED = 5;
+}
+
+// Заказ
+message Order {
+    string order_id = 1;
+    int32 table_number = 2;
+    repeated MenuItem items = 3;
+    OrderStatus status = 4;
+    string created_at = 5;
+}
+
+// Запрос на создание заказа
+message CreateOrderRequest {
+    int32 table_number = 1;
+    repeated MenuItem items = 2;
+}
+
+// Ответ на создание заказа
+message CreateOrderResponse {
+    string order_id = 1;
+    int32 table_number = 2;
+    repeated MenuItem items = 3;
+    OrderStatus status = 4;
+    string created_at = 5;
+}
+
+// Запрос на получение заказа
+message GetOrderRequest {
+    string order_id = 1;
+}
+
+// Запрос на обновление статуса
+message UpdateOrderStatusRequest {
+    string order_id = 1;
+    OrderStatus status = 2;
+} 
+
+// Запрос на подтверждение статуса заказа
+message ConfirmOrderPickupRequest {
+    string order_id = 1;
+}

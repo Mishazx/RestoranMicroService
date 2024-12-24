@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package notification;
+
+service NotificationService {
+  rpc NotifyOrderStatus (OrderStatusNotification) returns (NotificationResponse) {}
+}
+
+message OrderStatusNotification {
+  string order_id = 1;
+  string table_number = 2;
+  string status = 3;
+  string message = 4;
+}
+
+message NotificationResponse {
+  bool success = 1;
+  string message = 2;
+} 

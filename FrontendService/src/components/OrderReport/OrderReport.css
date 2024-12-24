@@ -1,0 +1,51 @@
+.order-report {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* background-color: white; */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  z-index: 1000;
+}
+
+.order-report .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+
+.order-report .order-details {
+  margin-bottom: 20px;
+}
+
+.order-report .order-items table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-report .order-items th,
+.order-report .order-items td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.order-report .order-total {
+  margin-top: 20px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.order-report.error {
+  text-align: center;
+  color: red;
+}

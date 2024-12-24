@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+  kitchen_service:
+    build: 
+      dockerfile: Dockerfile
+      context: ./KitchenService
+    ports:
+      - "50052:50052"
+    networks:
+      - restaurant_network
+    depends_on:
+      - order_service
+
+  order_service:
+    build: 
+      dockerfile: Dockerfile
+      context: ./OrderService
+    ports:
+      - "50051:50051"
+    networks:
+      - restaurant_network
+
+  notification_service:
+    build: 
+      dockerfile: Dockerfile
+      context: ./NotificationService
+    ports:
+      - "50053:50053"
+      - "8080:8080"
+    networks:
+      - restaurant_network
+    depends_on:
+      - order_service
+      - kitchen_service
+      - postgres
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=notifications
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+
+  web_service:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./WebService
+    ports:
+      - "8000:8000"
+    networks:
+      - restaurant_network
+    depends_on:
+      - order_service
+
+  postgres:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=notifications
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - restaurant_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  frontend_service:
+    build:
+      context: ./FrontendService
+      dockerfile: Dockerfile
+    ports:
+     - "5173:80"
+    volumes:
+     - ./FrontendService:/app
+
+networks:
+  restaurant_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

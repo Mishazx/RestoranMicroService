@@ -1,0 +1,32 @@
+.notifications-container {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification {
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  opacity: 0.9;
+  transition: opacity 0.5s;
+  width: 100%;
+}
+
+.notification.new {
+  background-color: #4caf50; /* Зеленый цвет для новых уведомлений */
+  color: white;
+}
+
+.notification.old {
+  background-color: #f44336; /* Красный цвет для старых уведомлений */
+  color: white;
+}
+
+.notification.hide {
+  opacity: 0;
+}
